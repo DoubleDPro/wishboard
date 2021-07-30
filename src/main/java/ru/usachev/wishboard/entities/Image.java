@@ -1,5 +1,6 @@
 package ru.usachev.wishboard.entities;
 
+import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,44 +8,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "task")
-public class Task {
+@Table(name = "image")
+public class Image {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @Column(name = "name")
-  private String name;
+  @Lob
+  @Column(name = "data")
+  private byte[] data;
 
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "task")
-  private Event event;
-
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "wish_id")
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "image")
   private Wish wish;
 
-  public String getName() {
-    return name;
+  public byte[] getData() {
+    return data;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Event getEvent() {
-    return event;
-  }
-
-  public void setEvent(Event event) {
-    this.event = event;
+  public void setData(byte[] data) {
+    this.data = data;
   }
 
   public Wish getWish() {
@@ -63,22 +52,22 @@ public class Task {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Task task = (Task) o;
-    return id == task.id && name.equals(task.name) && Objects.equals(event, task.event)
-        && wish.equals(task.wish);
+    Image image = (Image) o;
+    return id == image.id && Arrays.equals(data, image.data) && wish.equals(image.wish);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, event, wish);
+    int result = Objects.hash(id, wish);
+    result = 31 * result + Arrays.hashCode(data);
+    return result;
   }
 
   @Override
   public String toString() {
-    return "Task{" +
+    return "Image{" +
         "id=" + id +
-        ", name='" + name + '\'' +
-        ", event=" + event +
+        ", data=" + Arrays.toString(data) +
         ", wish=" + wish +
         '}';
   }

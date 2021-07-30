@@ -1,5 +1,6 @@
 package ru.usachev.wishboard.entities;
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,14 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "task")
-public class Task {
+@Table(name = "period_type")
+public class PeriodType {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +23,8 @@ public class Task {
   @Column(name = "name")
   private String name;
 
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "task")
-  private Event event;
-
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "wish_id")
-  private Wish wish;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodType")
+  private List<Event> events;
 
   public String getName() {
     return name;
@@ -39,20 +34,12 @@ public class Task {
     this.name = name;
   }
 
-  public Event getEvent() {
-    return event;
+  public List<Event> getEvents() {
+    return events;
   }
 
-  public void setEvent(Event event) {
-    this.event = event;
-  }
-
-  public Wish getWish() {
-    return wish;
-  }
-
-  public void setWish(Wish wish) {
-    this.wish = wish;
+  public void setEvents(List<Event> events) {
+    this.events = events;
   }
 
   @Override
@@ -63,23 +50,21 @@ public class Task {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Task task = (Task) o;
-    return id == task.id && name.equals(task.name) && Objects.equals(event, task.event)
-        && wish.equals(task.wish);
+    PeriodType that = (PeriodType) o;
+    return id == that.id && name.equals(that.name) && Objects.equals(events, that.events);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, event, wish);
+    return Objects.hash(id, name, events);
   }
 
   @Override
   public String toString() {
-    return "Task{" +
+    return "PeriodType{" +
         "id=" + id +
         ", name='" + name + '\'' +
-        ", event=" + event +
-        ", wish=" + wish +
+        ", events=" + events +
         '}';
   }
 }
