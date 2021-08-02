@@ -24,7 +24,7 @@ public class Task {
   @Column(name = "name")
   private String name;
 
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "task")
+  @OneToOne(mappedBy = "task")
   private Event event;
 
   @ManyToOne(cascade = CascadeType.ALL)

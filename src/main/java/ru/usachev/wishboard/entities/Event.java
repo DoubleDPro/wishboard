@@ -33,7 +33,8 @@ public class Event {
   @Column(name = "recurring_count")
   private int recurringCount;
 
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "event")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "task_id", referencedColumnName = "id")
   private Task task;
 
   @ManyToOne(cascade = CascadeType.ALL)
