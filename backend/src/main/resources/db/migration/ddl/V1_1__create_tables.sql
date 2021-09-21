@@ -55,8 +55,8 @@ CREATE TABLE person
     id serial NOT NULL,	-- Идентификатор пользователя
     name varchar(50) NOT NULL,	-- Имя пользователя
     email varchar(50) NOT NULL,	-- Электронная почта пользователя
-    pass_salt varchar(50) NOT NULL,	-- Модификатор входа хэш-функции
-    pass varchar(50) NOT NULL,	-- Пароль пользователя
+    pass_salt varchar(50),	-- Модификатор входа хэш-функции
+    pass varchar(50),	-- Пароль пользователя
     created_date timestamp without time zone NOT NULL	-- Дата создания аккаунта
 );
 
