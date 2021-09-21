@@ -1,35 +1,39 @@
 <template>
-  <div id="app">
-    <h1> Создать цель </h1>
-    <input v-model="wishName" placeholder="Введите название цели">
-    <button v-on:click="createWish">Создать</button>
+  <div id="auth">
+    <div v-if="is_auth()">
+      Logged in as: {{ person_name }}
+      <button @click="send()">BUT</button>
+    </div>
+    <div v-else>
+      Авторизоваться <a href="http://localhost:8080/oauth2/authorization/google">через Google</a>
+    </div>
+
   </div>
 </template>
 
 <script>
 
+import axios from "axios";
+
 export default {
-  name: 'App',
+  name: 'Auth',
   data: function () {
     return {
-      wishName: ''
+      person_name: null
     }
   },
   methods: {
-    createWish() {
-      console.log(this.wishName)
+    is_auth() {
+      this.person_name = this.$cookies.get('Person')
+      return this.$cookies.get('Authorization') != null
+    },
+    send() {
+      axios.get("http://localhost:8080/wishes", {withCredentials: true}).then(res => console.log(res.data))
     }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  vertical-align: middle;
-  color: #2c3e50;
-}
+
 </style>
