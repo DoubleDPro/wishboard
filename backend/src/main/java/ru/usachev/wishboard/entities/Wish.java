@@ -1,5 +1,6 @@
 package ru.usachev.wishboard.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -14,9 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import ru.usachev.wishboard.json.WishDeserializer;
 
 @Entity
 @Table(name = "wish")
+@JsonDeserialize(using = WishDeserializer.class)
 public class Wish {
 
   @Id
@@ -39,9 +42,17 @@ public class Wish {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "wish")
   private List<Task> tasks;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "person_id")
   private Person person;
+
+  public Wish() {
+  }
+
+  public Wish(String name, int personId) {
+    this.name = name;
+    this.person = new Person(personId);
+  }
 
   public String getName() {
     return name;

@@ -26,7 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .cors().and()
-        .authorizeRequests().anyRequest().authenticated().and().oauth2Login().defaultSuccessUrl("/auth")
+        .csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/reg").permitAll()
+        .anyRequest().authenticated().and().oauth2Login().defaultSuccessUrl("/auth")
         .userInfoEndpoint().oidcUserService(customOidcUserService);
   }
 

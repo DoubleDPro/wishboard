@@ -31,13 +31,28 @@ public class Person {
   private String pass;
 
   @Column(name = "pass_salt")
-  private String pass_salt;
+  private String passSalt;
 
   @Column(name = "created_date")
   private Date createdDate;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
   private List<Wish> wishes;
+
+  public Person(int id) {
+    this.id = id;
+  }
+
+  public Person() {
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -63,12 +78,12 @@ public class Person {
     this.pass = pass;
   }
 
-  public String getPass_salt() {
-    return pass_salt;
+  public String getPassSalt() {
+    return passSalt;
   }
 
-  public void setPass_salt(String pass_salt) {
-    this.pass_salt = pass_salt;
+  public void setPassSalt(String pass_salt) {
+    this.passSalt = pass_salt;
   }
 
   public Date getCreatedDate() {
@@ -97,13 +112,13 @@ public class Person {
     }
     Person person = (Person) o;
     return id == person.id && name.equals(person.name) && email.equals(person.email) && pass.equals(
-        person.pass) && pass_salt.equals(person.pass_salt) && createdDate.equals(person.createdDate)
+        person.pass) && passSalt.equals(person.passSalt) && createdDate.equals(person.createdDate)
         && Objects.equals(wishes, person.wishes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, email, pass, pass_salt, createdDate, wishes);
+    return Objects.hash(id, name, email, pass, passSalt, createdDate, wishes);
   }
 
   @Override
@@ -113,7 +128,7 @@ public class Person {
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", pass='" + pass + '\'' +
-        ", pass_salt='" + pass_salt + '\'' +
+        ", pass_salt='" + passSalt + '\'' +
         ", createdDate=" + createdDate +
         ", wishes=" + wishes +
         '}';
